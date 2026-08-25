@@ -19,6 +19,7 @@ interface Env {
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
+		const cors = { 'Access-Control-Allow-Origin': 'gephi.org' };
 		// Vérification de la méthode HTTP
 		if (request.method !== 'POST') {
 			return new Response('Method Not Allowed', { status: 405 });
@@ -30,7 +31,7 @@ export default {
 			if (!bodyJson.email || typeof bodyJson.email !== 'string') {
 				return new Response(JSON.stringify({ success: false, error: 'Email manquant ou invalide' }), {
 					status: 400,
-					headers: { 'Content-Type': 'application/json' },
+					headers: { 'Content-Type': 'application/json', ...cors },
 				});
 			}
 			// Cast explicite pour TypeScript (à faire après validation)
@@ -48,7 +49,7 @@ export default {
 					}),
 					{
 						status: 500,
-						headers: { 'Content-Type': 'application/json' },
+						headers: { 'Content-Type': 'application/json', ...cors },
 					},
 				);
 			} else {
@@ -59,6 +60,7 @@ export default {
 				});
 				return new Response(null, {
 					status: 201,
+					headers: cors,
 				});
 			}
 		} catch (error) {
@@ -69,7 +71,7 @@ export default {
 				}),
 				{
 					status: 500,
-					headers: { 'Content-Type': 'application/json' },
+					headers: { 'Content-Type': 'application/json', ...cors },
 				},
 			);
 		}
