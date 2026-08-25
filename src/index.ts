@@ -19,7 +19,7 @@ interface Env {
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
-		const cors = { 'Access-Control-Allow-Origin': 'gephi.org' };
+		const cors = { 'Access-Control-Allow-Origin': 'https://gephi.org, http://localhost:4321' };
 		// Vérification de la méthode HTTP
 		if (request.method !== 'POST') {
 			return new Response('Method Not Allowed', { status: 405 });
